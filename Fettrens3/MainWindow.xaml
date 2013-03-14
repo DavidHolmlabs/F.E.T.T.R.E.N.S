@@ -1,0 +1,28 @@
+﻿<Window x:Class="Fettrens3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="471" Width="872" Closing="Window_Closing">
+    <TabControl Name="tabControl1" Margin="0,0,4,0">
+        <TabItem Header="Skotta" Name="tabItem1" FontSize="20">
+            <Grid Background="{x:Null}" Name="MainGrid" Height="385" Width="824">
+                <ComboBox Height="40" HorizontalAlignment="Left" Margin="529,319,0,0" Name="StateComboBox" VerticalAlignment="Top" Width="220" FontSize="20" IsEnabled="False" />
+                <StackPanel x:Name="StatePanel" Orientation="Horizontal" Margin="0,147,0,72" />
+                <ComboBox Height="40" HorizontalAlignment="Left" Margin="6,6,0,0" Name="DriverComboBox" VerticalAlignment="Top" Width="220" FontSize="20" SelectionChanged="ComboBox_SelectionChanged" />
+                <ComboBox Height="40" HorizontalAlignment="Left" Margin="232,6,0,0" Name="Tool1ComboBox" VerticalAlignment="Top" Width="220" FontSize="20" SelectionChanged="ComboBox_SelectionChanged" />
+                <ComboBox Height="40" HorizontalAlignment="Left" Margin="458,6,0,0" Name="Tool2ComboBox" VerticalAlignment="Top" Width="220" FontSize="20" SelectionChanged="ComboBox_SelectionChanged" />
+                <ComboBox Height="40" HorizontalAlignment="Left" Margin="232,76,0,0" Name="CostumerComboBox" VerticalAlignment="Top" Width="220" FontSize="20" SelectionChanged="CostumerComboBox_SelectionChanged" />
+                <Label Content="Tid" Height="40" HorizontalAlignment="Left" Margin="6,322,0,0" Name="TimeLabel" VerticalAlignment="Top" Width="71" />
+                <Label Content="Pris" Height="40" HorizontalAlignment="Left" Margin="264,322,0,0" Name="label1" VerticalAlignment="Top" Width="71" />
+                <TextBox Height="43" HorizontalAlignment="Left" Margin="341,319,0,0" Name="PriceTextBox" VerticalAlignment="Top" Width="180" />
+                <Button Content="Nästa kund" Height="40" HorizontalAlignment="Left" Margin="458,76,0,0" Name="NextButton" VerticalAlignment="Top" Width="180" Click="NextButton_Click" />
+                <Button Content="Föregående kund" Height="40" HorizontalAlignment="Left" Margin="46,76,0,0" Name="PreviousButton" VerticalAlignment="Top" Width="180" Click="PreviousButton_Click" />
+                <TextBox Height="41" Name="TimeTextBox" Width="180" Margin="61,318,661,22" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Rätta" Name="EditTabItem" FontSize="20">
+            <Grid>
+                <DataGrid AutoGenerateColumns="False" Margin="6,0" Name="EditDataGrid" IsReadOnly="False" IsEnabled="True"  />
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
