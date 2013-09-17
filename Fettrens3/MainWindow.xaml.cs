@@ -20,6 +20,7 @@ namespace Fettrens3
         private bool stateChangeLock = true;
         internal Fettrens.FettApplication app;
         private DispatcherTimer Clock;
+        private FrameworkElement NormalFrameworkElement = null;
 
         public MainWindow()
         {
@@ -36,16 +37,17 @@ namespace Fettrens3
 
         private void InitStackPanel()
         {
-
-            StatePanel.Children.Add(GetBorder(StateMachine.States.Normal, "/Icons/Dad-icon.png"));
+            NormalFrameworkElement = (FrameworkElement)GetBorder(StateMachine.States.Normal, "/Icons/Dad-icon.png");
+            StatePanel.Children.Add(NormalFrameworkElement);
             StatePanel.Children.Add(GetBorder(StateMachine.States.ManualLabor, "/Icons/Snowman-icon.png"));
             StatePanel.Children.Add(GetBorder(StateMachine.States.PaiedStop, "/Icons/Knight-icon.png"));
-            StatePanel.Children.Add(GetBorder(StateMachine.States.PlannedRepair, "/Icons/Leprechaun-icon.png"));
+            StatePanel.Children.Add(GetBorder(StateMachine.States.UnplannedRepair, "/Icons/Robot-icon.png"));
             StatePanel.Children.Add(GetBorder(StateMachine.States.Prepare, "/Icons/Mermaid-icon.png"));
             StatePanel.Children.Add(GetBorder(StateMachine.States.Service, "/Icons/Pirate-icon.png"));
-            StatePanel.Children.Add(GetBorder(StateMachine.States.Transport, "/Icons/Robot-icon.png"));
             StatePanel.Children.Add(GetBorder(StateMachine.States.UnpaidStop, "/Icons/Devil-icon.png"));
+            StatePanel.Children.Add(GetBorder(StateMachine.States.Transport, "/Icons/Leprechaun-icon.png"));
         }
+
 
         private UIElement GetBorder(StateMachine.States state, string img)
         {
@@ -91,15 +93,15 @@ namespace Fettrens3
         private void InitComboBoxes()
         {
             DriverComboBox.ItemsSource = app.GetDrivers();
-            DriverComboBox.SelectedIndex = 0;
-            StateComboBox.ItemsSource = app.GetAllStates();// GetPossibleStates();
+            DriverComboBox.SelectedItem = Properties.Settings.Default.Driver;
+            StateComboBox.ItemsSource = app.GetAllStates();
             StateComboBox.SelectedItem = app.currentStateText;
             Tool1ComboBox.ItemsSource = app.GetTool1Array();
-            Tool1ComboBox.SelectedIndex = 0;
+            Tool1ComboBox.SelectedItem = Properties.Settings.Default.Tool1;
             Tool2ComboBox.ItemsSource = app.GetTool2Array();
-            Tool2ComboBox.SelectedIndex = 0;
+            Tool2ComboBox.SelectedItem = Properties.Settings.Default.Tool2;
             CostumerComboBox.ItemsSource = app.GetCostumers();
-            CostumerComboBox.SelectedIndex = 0;
+            CostumerComboBox.SelectedItem = Properties.Settings.Default.Costumer;
         }
 
         private void InitDataGrid()
@@ -188,6 +190,13 @@ namespace Fettrens3
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Setting finalsettings = getSettings();
+            Properties.Settings.Default.Driver = finalsettings.driver;
+            Properties.Settings.Default.Costumer = finalsettings.costumer;
+            Properties.Settings.Default.Tool1 = finalsettings.tool1;
+            Properties.Settings.Default.Tool2 = finalsettings.tool2;
+            Properties.Settings.Default.Save();
+
             app.UpdateXMLLogg();
         }
 
@@ -214,6 +223,7 @@ namespace Fettrens3
 
         private void CostumerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            UpdateStackPanel(NormalFrameworkElement);
             app.NewTimeStamp(getSettings());
             TimeTextBox.Text = "0";
             PriceTextBox.Text = "0";
@@ -250,22 +260,36 @@ namespace Fettrens3
             if (clicksource != null)
             {
                 clickedState = (StateMachine.States)clicksource.Tag;
-            }
-            if (clickedState != null)
-            {
-                ChangeState((StateMachine.States)clickedState);
-                foreach (Border border in StatePanel.Children)
+                if (clickedState != null)
                 {
-                    resetBorder(border);
+                    ChangeState((StateMachine.States)clickedState);
+                    UpdateStackPanel(clicksource);
                 }
+            }
+        }
+
+        private void UpdateStackPanel(FrameworkElement clicksource)
+        {
+            foreach (Border border in StatePanel.Children)
+            {
+                resetBorder(border);
+            }
+            if (clicksource == null) return;
+            if (clicksource is Border)
+            {
+                focusBorder(clicksource as Border);
+            }
+            else
+            {
                 var theGrid = clicksource.Parent as FrameworkElement;
                 var theBorder = theGrid.Parent as Border;
                 focusBorder(theBorder);
-             }
+            }
         }
 
         private void focusBorder(Border border)
         {
+            if (border == null) return;
             border.Background = new SolidColorBrush(Colors.Thistle);
             border.Width = 100;
             border.Height = 140;

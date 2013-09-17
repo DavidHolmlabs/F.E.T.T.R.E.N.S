@@ -2,16 +2,16 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Fettrens3.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Tool1" Type="System.String" Scope="Application">
+    <Setting Name="Tool1" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Tool2" Type="System.String" Scope="Application">
+    <Setting Name="Tool2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Driver" Type="System.String" Scope="Application">
+    <Setting Name="Driver" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Costumer" Type="System.String" Scope="Application">
+    <Setting Name="Costumer" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
