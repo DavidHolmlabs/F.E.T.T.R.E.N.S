@@ -197,6 +197,7 @@ namespace Fettrens3
             Properties.Settings.Default.Tool2 = finalsettings.tool2;
             Properties.Settings.Default.Save();
 
+            app.NewTimeStamp(finalsettings);
             app.UpdateXMLLogg();
         }
 
@@ -223,10 +224,15 @@ namespace Fettrens3
 
         private void CostumerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateStackPanel(NormalFrameworkElement);
-            app.NewTimeStamp(getSettings());
-            TimeTextBox.Text = "0";
-            PriceTextBox.Text = "0";
+            if (!initializing)
+            {
+                app.ChangeState(StateMachine.States.Normal);
+                StateComboBox.SelectedItem = app.currentStateText;
+                UpdateStackPanel(NormalFrameworkElement);
+                app.NewTimeStamp(getSettings());
+                TimeTextBox.Text = "0";
+                PriceTextBox.Text = "0";
+            }
             NextButton.Content = app.NextCostumer();
             PreviousButton.Content = app.PreviousCostumer();
         }
